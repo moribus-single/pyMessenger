@@ -36,6 +36,13 @@ db = [
     }
 ]
 
+acc_db = [
+    {
+        'login': 'danil01',
+        'password': '12321qwqw'
+    }
+]
+
 
 @app.route("/")
 def hello():
@@ -69,7 +76,7 @@ def send_msg():
     if not isinstance(sender, str) or not isinstance(message, str) or not isinstance(recipient, str):
         return abort(400)
     if sender == '' or message == '' or recipient == '':
-        print('ABORT')
+        print('asfdadsf')
         return abort(400)
 
     db.append({
@@ -115,4 +122,29 @@ def get_msg():
     return {'messages': messages[:50]}
 
 
-app.run()
+@app.route("/login", methods=['POST'])
+def login():
+    data = request.json
+
+    if not isinstance(data, dict):
+        return abort(400)
+    if 'login' not in data or 'password' not in data:
+        return abort(400)
+
+    if not isinstance(data['login'], str) or not isinstance(data['password'], str):
+        return abort(400)
+    if data['login'] == '' or data['password'] == '':
+        return abort(400)
+
+    for acc in acc_db:
+        if acc['login'] == data['login']:
+            if acc['password'] == data['password']:
+                return {'ok': True}
+
+    abort(400)
+    return {'ok': False}
+
+
+
+if __name__ == "__main__":
+    app.run()
