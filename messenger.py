@@ -1,10 +1,11 @@
 from datetime import datetime
 from PyQt6 import QtWidgets, QtCore
-import clientui
+from gui import chatUI
+from gui import loginUI
 import requests as r
 
 
-class ExampleApp(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
+class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
@@ -21,6 +22,7 @@ class ExampleApp(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
         for msg in messages:
             dt = datetime.fromtimestamp(msg['time'])
             dt = dt.strftime('%d.%m %H:%M')
+
             self.textBrowser.append(msg['sender'] + ' ' + 'to' + ' ' + msg['recipient'] + ' ' + dt)
             self.textBrowser.append(msg['message'] + '\n')
 
@@ -59,7 +61,49 @@ class ExampleApp(QtWidgets.QMainWindow, clientui.Ui_MainWindow):
         self.textEdit.clear()
 
 
-app = QtWidgets.QApplication([])
-window = ExampleApp()
-window.show()
-app.exec()
+class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
+    def __init__(self, mainwindow):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.pressed.connect(self.log_in)
+        self.mainwindow = mainwindow
+
+    def log_in(self):
+        login = self.lineEdit_2.text()
+        password = self.lineEdit.text()
+
+        try:
+            result = r.post(
+                'http://127.0.0.1:5000/login',
+                json={'login': login, 'password': password}
+            )
+        except:
+            self.label_2.setStyleSheet("color: #FF8C00;")
+            self.label_2.setText('Server do not respond.')
+            self.plainTextEdit.clear()
+            self.plainTextEdit_2.clear()
+            return
+
+        if result.status_code != 200:
+            print(f'Login - {login}\nPassword - {password}\nStatus Code - {result.status_code}')
+            self.label_2.setStyleSheet("color: #FF4500;")
+            self.label_2.setText('Invalid login or password.')
+        else:
+            self.label_2.clear()
+            self.close()
+
+            self.mainwindow.show()
+            # TODO: закрепить username справа сверху mainwindow
+            # TODO: Добавить окно регистрации
+            # TODO: добавить чаты в каждый аккаунт с возможностью сохранения.
+            app.exec()
+
+
+if __name__ == '__main__':
+    app = QtWidgets.QApplication([])
+
+    window = MainWindow()
+    login = LoginForm(window)
+
+    login.show()
+    app.exec()
