@@ -2,7 +2,7 @@
 Simple foundation of Python messenger.
 
 ## Stack: 
-Python, Flask, PyQt6, XML, CSS, QtDesigner.
+Python, Flask, PyQt6, CSS, QtDesigner.
 
 ## Architecture: 
 Client-Server.
