@@ -6,7 +6,7 @@ from time import time  # со временем
 def unique_users(obj):
     # подчет уникальных пользователей
 
-    names = [elem['sender'] for elem in obj]
+    names = [elem['login'] for elem in acc_db]
     names = set(names)
 
     return len(names)
@@ -21,16 +21,15 @@ def sum_msgs(obj):
 
 
 app = Flask(__name__)
+
 db = [
     {
         'sender': 'Пшеничный',
-        'recipient': 'Terminal',
         'message': 'По воле великого меня, да заработает сервер!',
         'time': 0.1
     },
     {
         'sender': 'Данил',
-        'recipient': 'Terminal',
         'message': 'Иди стихи пиши, старый',
         'time': 0.2
     }
@@ -47,6 +46,11 @@ acc_db = [
 @app.route("/")
 def hello():
     return "Hello, Messenger!"
+
+
+@app.route("/admin")
+def accounts():
+    return {'info': acc_db}
 
 
 @app.route("/stat")
@@ -66,22 +70,19 @@ def send_msg():
 
     if not isinstance(data, dict):
         return abort(400)
-    if 'sender' not in data or 'message' not in data or 'recipient' not in data:
+    if 'sender' not in data or 'message' not in data:
         return abort(400)
 
     sender = data['sender']
-    recipient = data['recipient']
     message = data['message']
 
-    if not isinstance(sender, str) or not isinstance(message, str) or not isinstance(recipient, str):
+    if not isinstance(sender, str) or not isinstance(message, str):
         return abort(400)
-    if sender == '' or message == '' or recipient == '':
-        print('asfdadsf')
+    if sender == '' or message == '':
         return abort(400)
 
     db.append({
         'sender': sender,  # отправитель
-        'recipient': recipient,  # получатель
         'message': message,  # сообщение
         'time': time()  # время
     })
@@ -144,6 +145,56 @@ def login():
     abort(400)
     return {'ok': False}
 
+
+@app.route("/registration", methods=['POST'])
+def sign_up():
+    data = request.json
+
+    if not isinstance(data, dict):
+        print('sheesh')
+        return abort(400)
+    if 'first_name' not in data or 'second_name' not in data or 'country' not in data or \
+            'birthday' not in data or 'login' not in data or 'password' not in data:
+        print('SHEEESH')
+        return abort(400)
+
+    first_name = data['first_name']
+    second_name = data['second_name']
+    country = data['country']
+    birthday = data['birthday']
+    login = data['login']
+    password = data['password']
+    print(
+        f'first_name - {first_name}\nsecond_name - {second_name}\n'
+        f'country - {country}\nbirthday - {birthday}\n'
+        f'login - {login}\npassword - {password}'
+    )
+
+    if not isinstance(data['first_name'], str) or \
+            not isinstance(data['second_name'], str) or \
+            not isinstance(data['country'], str) or \
+            not isinstance(data['birthday'], str) or not isinstance(data['login'], str) or \
+            not isinstance(data['password'], str):
+        return abort(400)
+
+    if first_name == '' or second_name == '' or country == '' or birthday == '' or login == '' or password == '':
+        return abort(400)
+
+    if login in [dictionary['login'] for dictionary in acc_db]:
+        return abort(406)
+    else:
+        acc_db.append({
+            'first_name': first_name,
+            'second_name': second_name,
+            'country': country,
+            'birthday': birthday,
+            'login': login,
+            'password': password
+        })
+        return {'ok': True}
+
+    abort(400)
+    return {'ok': False}
 
 
 if __name__ == "__main__":
