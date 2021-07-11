@@ -12,95 +12,98 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(301, 402)
-
-        MainWindow.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
-        MainWindow.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
-
+        MainWindow.resize(391, 411)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
-
         MainWindow.setSizePolicy(sizePolicy)
-        MainWindow.setMinimumSize(QtCore.QSize(301, 402))
-        MainWindow.setMaximumSize(QtCore.QSize(301, 402))
+        MainWindow.setMinimumSize(QtCore.QSize(391, 411))
+        MainWindow.setMaximumSize(QtCore.QSize(391, 411))
+
+        MainWindow.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
+        MainWindow.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
+
         MainWindow.setAutoFillBackground(False)
-        MainWindow.setStyleSheet("background-color: rgba(255, 255, 255, 255);")
+        MainWindow.setStyleSheet("QMainWindow{\n"
+"border-radius: 10px;\n"
+"background-color: rgba(255, 255, 255, 255);\n"
+"}")
+        MainWindow.setDocumentMode(False)
+        MainWindow.setTabShape(QtWidgets.QTabWidget.TabShape.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
-        self.frame.setGeometry(QtCore.QRect(0, 40, 301, 361))
-        self.frame.setStyleSheet("*{\n"
-"border-radius:5px;\n"
-"}\n"
-"\n"
-"QPushButton{\n"
-"background: #4682B4;\n"
-"border: 1px solid black\n"
-"}\n"
-"\n"
-"QTextBrowser{\n"
-"background: #00CED1;\n"
-"}\n"
-"\n"
-"QTextEdit{\n"
-"background: #4682B4;\n"
-"}\n"
-"\n"
-"QFrame{\n"
-"border: 1px solid black\n"
+        self.frame.setGeometry(QtCore.QRect(0, 0, 391, 411))
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.frame.sizePolicy().hasHeightForWidth())
+        self.frame.setSizePolicy(sizePolicy)
+        self.frame.setMinimumSize(QtCore.QSize(391, 411))
+        self.frame.setMaximumSize(QtCore.QSize(391, 411))
+        self.frame.setStyleSheet("QFrame{\n"
+"border-radius: 10px;\n"
+"background-color: rgba(255, 255, 255, 255);\n"
 "}")
         self.frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
         self.textBrowser = QtWidgets.QTextBrowser(self.frame)
-        self.textBrowser.setGeometry(QtCore.QRect(10, 10, 281, 291))
+        self.textBrowser.setEnabled(True)
+        self.textBrowser.setGeometry(QtCore.QRect(10, 50, 371, 301))
+        self.textBrowser.setStyleSheet("border: 1px solid rgba(70, 130, 180, 1);\n"
+"border-radius: 3px;")
+        self.textBrowser.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.textBrowser.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.textBrowser.setObjectName("textBrowser")
         self.textEdit = QtWidgets.QTextEdit(self.frame)
-        self.textEdit.setGeometry(QtCore.QRect(10, 310, 231, 37))
+        self.textEdit.setGeometry(QtCore.QRect(10, 360, 321, 37))
+        self.textEdit.setStyleSheet("border: 1px solid rgba(70, 130, 180, 1);\n"
+"border-radius: 3px;")
         self.textEdit.setObjectName("textEdit")
         self.pushButton = QtWidgets.QPushButton(self.frame)
-        self.pushButton.setGeometry(QtCore.QRect(250, 310, 41, 37))
+        self.pushButton.setGeometry(QtCore.QRect(340, 360, 41, 37))
         font = QtGui.QFont()
         font.setFamily("Stencil")
         font.setPointSize(20)
         self.pushButton.setFont(font)
+        self.pushButton.setStyleSheet("QPushButton{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 255), stop:0.55 rgba(0, 139, 139, 255), stop:0.98 rgba(0, 128, 129, 255), stop:1 rgba(70, 130, 180, 255));\n"
+"border: 1px solid rgba(70, 130, 180, 1);\n"
+"border-radius: 3px;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 200), stop:0.55 rgba(0, 139, 139, 200), stop:0.98 rgba(0, 128, 129, 200), stop:1 rgba(70, 130, 180, 200));\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 255), stop:0.55 rgba(0, 139, 139, 255), stop:0.98 rgba(0, 128, 129, 255), stop:1 rgba(70, 130, 180, 255));\n"
+"}\n"
+"")
         self.pushButton.setObjectName("pushButton")
-        self.frame_2 = QtWidgets.QFrame(self.centralwidget)
-        self.frame_2.setGeometry(QtCore.QRect(10, 0, 281, 41))
-        self.frame_2.setAutoFillBackground(False)
-        self.frame_2.setStyleSheet("\n"
-"QFrame{\n"
-"border-radius:5px;\n"
-"border: 1px solid black;\n"
-"border-bottom: 0px;\n"
-"border-bottom-left-radius: 0px;\n"
-"border-bottom-right-radius: 0px;\n"
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_2.setGeometry(QtCore.QRect(375, 0, 16, 16))
+        self.pushButton_2.setStyleSheet("QPushButton{\n"
+"background-color: rgba(255, 0, 0,255);\n"
+"border: 1px solid rgb(193, 0, 0);\n"
+"border-radius:3px;\n"
+"border-top-right-radius: 5px;\n"
 "}\n"
-"\n"
-"QLabel{\n"
-"border:0px;\n"
+"QPushButton:hover{\n"
+"background-color: rgba(255, 0, 0,200);\n"
 "}\n"
-"\n"
-"QLineEdit{\n"
-"border-radius: 5px;\n"
-"border: 1px solid black;\n"
-"background:#4682B4 ;\n"
-"}")
-        self.frame_2.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.label = QtWidgets.QLabel(self.frame_2)
-        self.label.setGeometry(QtCore.QRect(10, 10, 111, 21))
-        font = QtGui.QFont()
-        font.setFamily("Stencil")
-        font.setPointSize(14)
-        self.label.setFont(font)
+"QPushButton:pressed{\n"
+"background-color: rgba(255, 0, 0,255);\n"
+"}\n"
+"")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.label = QtWidgets.QLabel(self.frame)
+        self.label.setGeometry(QtCore.QRect(20, 20, 131, 16))
+        self.label.setStyleSheet("background-color: rgba(0, 0, 0, 0);\n"
+"border-bottom:2px solid rgba(70, 130, 180, 1);\n"
+"color: rgba(0,0,0,240);")
+        self.label.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.label.setObjectName("label")
-        self.lineEdit = QtWidgets.QLineEdit(self.frame_2)
-        self.lineEdit.setGeometry(QtCore.QRect(150, 10, 113, 20))
-        self.lineEdit.setObjectName("lineEdit")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -110,4 +113,5 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", ">"))
-        self.label.setText(_translate("MainWindow", "Messenger"))
+        self.pushButton_2.setText(_translate("MainWindow", "X"))
+        self.label.setText(_translate("MainWindow", "Имя собеседника"))

@@ -13,12 +13,12 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(301, 402)
+        MainWindow.setMinimumSize(QtCore.QSize(301, 402))
+        MainWindow.setMaximumSize(QtCore.QSize(301, 402))
 
         MainWindow.setWindowFlags(QtCore.Qt.WindowType.FramelessWindowHint)
         MainWindow.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground)
 
-        MainWindow.setMinimumSize(QtCore.QSize(301, 402))
-        MainWindow.setMaximumSize(QtCore.QSize(301, 402))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.frame = QtWidgets.QFrame(self.centralwidget)
@@ -28,7 +28,7 @@ class Ui_MainWindow(object):
         self.frame.setFrameShadow(QtWidgets.QFrame.Shadow.Raised)
         self.frame.setObjectName("frame")
         self.label = QtWidgets.QLabel(self.frame)
-        self.label.setGeometry(QtCore.QRect(95, 40, 111, 51))
+        self.label.setGeometry(QtCore.QRect(95, 40, 131, 51))
         font = QtGui.QFont()
         font.setPointSize(26)
         font.setBold(True)
@@ -44,7 +44,18 @@ class Ui_MainWindow(object):
         font.setBold(False)
         font.setWeight(50)
         self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("")
+        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton.setMouseTracking(True)
+        self.pushButton.setStyleSheet("QPushButton{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 255), stop:0.55 rgba(0, 139, 139, 255), stop:0.98 rgba(0, 128, 129, 255), stop:1 rgba(70, 130, 180, 255));\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 200), stop:0.55 rgba(0, 139, 139, 200), stop:0.98 rgba(0, 128, 129, 200), stop:1 rgba(70, 130, 180, 200));\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(32, 178, 170, 255), stop:0.55 rgba(0, 139, 139, 255), stop:0.98 rgba(0, 128, 129, 255), stop:1 rgba(70, 130, 180, 255));\n"
+"}\n"
+"")
         self.pushButton.setObjectName("pushButton")
         self.label_2 = QtWidgets.QLabel(self.frame)
         self.label_2.setGeometry(QtCore.QRect(80, 225, 141, 21))
@@ -64,6 +75,7 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.lineEdit_2 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_2.setGeometry(QtCore.QRect(30, 130, 241, 31))
         font = QtGui.QFont()
@@ -82,6 +94,33 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setFrame(True)
         self.lineEdit_2.setCursorPosition(0)
         self.lineEdit_2.setObjectName("lineEdit_2")
+        self.pushButton_2 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_2.setGeometry(QtCore.QRect(285, 0, 16, 16))
+        self.pushButton_2.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton_2.setMouseTracking(True)
+        self.pushButton_2.setStyleSheet("QPushButton{\n"
+"background-color: rgba(255, 0, 0,255);\n"
+"border: 1px solid rgb(193, 0, 0);\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgba(255, 0, 0,200);\n"
+"}\n"
+"QPushButton:pressed{\n"
+"background-color: rgba(255, 0, 0,255);\n"
+"}\n"
+"")
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_3 = QtWidgets.QPushButton(self.frame)
+        self.pushButton_3.setGeometry(QtCore.QRect(105, 340, 91, 23))
+        font = QtGui.QFont()
+        font.setBold(True)
+        font.setUnderline(True)
+        font.setWeight(75)
+        self.pushButton_3.setFont(font)
+        self.pushButton_3.setCursor(QtGui.QCursor(QtCore.Qt.CursorShape.PointingHandCursor))
+        self.pushButton_3.setMouseTracking(True)
+        self.pushButton_3.setStyleSheet("border: none;")
+        self.pushButton_3.setObjectName("pushButton_3")
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
@@ -90,7 +129,9 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "Log In"))
-        self.pushButton.setText(_translate("MainWindow", "Log In"))
+        self.label.setText(_translate("MainWindow", "Sign In"))
+        self.pushButton.setText(_translate("MainWindow", "Sign In"))
         self.lineEdit.setPlaceholderText(_translate("MainWindow", "Password"))
         self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Username"))
+        self.pushButton_2.setText(_translate("MainWindow", "X"))
+        self.pushButton_3.setText(_translate("MainWindow", "Create account"))
