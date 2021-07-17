@@ -151,11 +151,9 @@ def sign_up():
     data = request.json
 
     if not isinstance(data, dict):
-        print('sheesh')
         return abort(400)
     if 'first_name' not in data or 'second_name' not in data or 'country' not in data or \
             'birthday' not in data or 'login' not in data or 'password' not in data:
-        print('SHEEESH')
         return abort(400)
 
     first_name = data['first_name']
@@ -164,24 +162,26 @@ def sign_up():
     birthday = data['birthday']
     login = data['login']
     password = data['password']
-    print(
-        f'first_name - {first_name}\nsecond_name - {second_name}\n'
-        f'country - {country}\nbirthday - {birthday}\n'
-        f'login - {login}\npassword - {password}'
-    )
 
     if not isinstance(data['first_name'], str) or \
             not isinstance(data['second_name'], str) or \
             not isinstance(data['country'], str) or \
-            not isinstance(data['birthday'], str) or not isinstance(data['login'], str) or \
+            not isinstance(data['birthday'], str) or \
+            not isinstance(data['login'], str) or \
             not isinstance(data['password'], str):
         return abort(400)
 
-    if first_name == '' or second_name == '' or country == '' or birthday == '' or login == '' or password == '':
+    if first_name == '' or \
+            second_name == '' or \
+            country == '' or \
+            birthday == '' or \
+            login == '' or \
+            password == '':
         return abort(400)
 
     if login in [dictionary['login'] for dictionary in acc_db]:
         return abort(406)
+
     else:
         acc_db.append({
             'first_name': first_name,
@@ -191,6 +191,7 @@ def sign_up():
             'login': login,
             'password': password
         })
+
         return {'ok': True}
 
     abort(400)
