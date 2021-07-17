@@ -4,6 +4,7 @@ from gui import chatUI
 from gui import loginUI
 from gui import registrationUI
 import requests as r
+from cleaning import clean_msg
 
 
 class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
@@ -46,7 +47,7 @@ class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
 
     def send_msg(self):
         name = self.user_login
-        text = self.textEdit.toPlainText()
+        text = clean_msg(self.textEdit.toPlainText())
         print(f'Login - {self.user_login}\nMessage - {text}\n')
 
         try:
@@ -98,13 +99,13 @@ class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
         if result.status_code != 200:
             self.label_2.setStyleSheet("color: #FF4500;")
             self.label_2.setText('Invalid login or password.')
+
         else:
             self.label_2.clear()
             self.close()
 
             self.main_window = MainWindow(login)
             self.main_window.show()
-            # TODO: убрать пробелы с краев сообщений ( strip() )
             # TODO: привести в порядок отображение сообщений в main_window
             # TODO: добавить чаты в каждый аккаунт с возможностью сохранения.
             app.exec()
@@ -143,12 +144,20 @@ class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
         password = self.lineEdit_4.text()
         password2 = self.lineEdit_6.text()
 
+        if first_name == '' or \
+            second_name == '' or \
+            country == '' or \
+            birthday == '' or \
+            login == '' or \
+            password == '':
+            self.label_2.setText('All the gaps should be filled in')
+            return
+
         if password != password2:
             self.label_2.setText('Passwords do not match')
             return
 
         else:
-
             try:
                 result = r.post(
                     'http://127.0.0.1:5000/registration',
@@ -162,7 +171,6 @@ class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
                     }
                 )
             except:
-                print(f'STATUS CODE: {r.status_codes}')
                 return
 
         self.clear_fields()
