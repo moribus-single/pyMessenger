@@ -20,6 +20,27 @@ def sum_msgs(obj):
     return len(msgs)
 
 
+def bot_command_check(msg: str, sender: str):
+    if msg == '/help':
+        bot_msg = '/time - узнать время\n'
+        db.append({
+            'sender': 'bot4help',  # отправитель
+            'recipient': sender,  # получатель
+            'message': bot_msg,  # сообщение
+            'time': time()  # время
+        })
+
+    if msg == '/time':
+        dt = datetime.fromtimestamp(time())
+        bot_msg = 'Время на сервере  -  ' + dt.strftime('%d.%m %H:%M')
+        db.append({
+            'sender': 'bot4help',  # отправитель
+            'recipient': sender,  # получатель
+            'message': bot_msg,  # сообщение
+            'time': time()  # время
+        })
+
+
 app = Flask(__name__)
 
 db = [
@@ -87,24 +108,8 @@ def send_msg():
         'time': time()  # время
     })
 
-    if message == '/help':
-        bot_msg = '/time - узнать время\n'
-        db.append({
-            'sender': 'bot4help',  # отправитель
-            'recipient': sender,  # получатель
-            'message': bot_msg,  # сообщение
-            'time': time()  # время
-        })
-
-    if message == '/time':
-        dt = datetime.fromtimestamp(time())
-        bot_msg = 'Время на сервере  -  ' + dt.strftime('%d.%m %H:%M')
-        db.append({
-            'sender': 'bot4help',  # отправитель
-            'recipient': sender,  # получатель
-            'message': bot_msg,  # сообщение
-            'time': time()  # время
-        })
+    # Проверка сообщения на команду.
+    bot_command_check(message, sender)
 
     return {'ok': True}
 

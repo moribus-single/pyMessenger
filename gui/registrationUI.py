@@ -75,6 +75,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.lineEdit.setText("")
+        self.lineEdit.setMaxLength(12)
         self.lineEdit.setObjectName("lineEdit")
         self.lineEdit_2 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_2.setGeometry(QtCore.QRect(20, 130, 191, 31))
@@ -90,7 +91,7 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit_2.setInputMask("")
         self.lineEdit_2.setText("")
-        self.lineEdit_2.setMaxLength(32769)
+        self.lineEdit_2.setMaxLength(12)
         self.lineEdit_2.setFrame(True)
         self.lineEdit_2.setCursorPosition(0)
         self.lineEdit_2.setObjectName("lineEdit_2")
@@ -107,6 +108,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.lineEdit_3.setText("")
+        self.lineEdit_3.setMaxLength(12)
         self.lineEdit_3.setObjectName("lineEdit_3")
         self.lineEdit_4 = QtWidgets.QLineEdit(self.frame)
         self.lineEdit_4.setGeometry(QtCore.QRect(20, 290, 421, 31))
@@ -121,6 +123,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.lineEdit_4.setText("")
+        self.lineEdit_4.setMaxLength(12)
         self.lineEdit_4.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.lineEdit_4.setObjectName("lineEdit_4")
         self.lineEdit_5 = QtWidgets.QLineEdit(self.frame)
@@ -137,7 +140,7 @@ class Ui_MainWindow(object):
 "")
         self.lineEdit_5.setInputMask("")
         self.lineEdit_5.setText("")
-        self.lineEdit_5.setMaxLength(32769)
+        self.lineEdit_5.setMaxLength(15)
         self.lineEdit_5.setFrame(True)
         self.lineEdit_5.setCursorPosition(0)
         self.lineEdit_5.setObjectName("lineEdit_5")
@@ -178,6 +181,7 @@ class Ui_MainWindow(object):
 "\n"
 "")
         self.lineEdit_6.setText("")
+        self.lineEdit_6.setMaxLength(12)
         self.lineEdit_6.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
         self.lineEdit_6.setObjectName("lineEdit_6")
         self.pushButton_2 = QtWidgets.QPushButton(self.frame)

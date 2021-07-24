@@ -144,6 +144,9 @@ padding-bottom: 7px;
      <property name="text">
       <string/>
      </property>
+     <property name="maxLength">
+      <number>12</number>
+     </property>
      <property name="placeholderText">
       <string>Second name</string>
      </property>
@@ -178,7 +181,7 @@ padding-bottom: 7px;
       <string/>
      </property>
      <property name="maxLength">
-      <number>32769</number>
+      <number>12</number>
      </property>
      <property name="frame">
       <bool>true</bool>
@@ -216,6 +219,9 @@ padding-bottom: 7px;
      <property name="text">
       <string/>
      </property>
+     <property name="maxLength">
+      <number>12</number>
+     </property>
      <property name="placeholderText">
       <string>Username</string>
      </property>
@@ -245,6 +251,9 @@ padding-bottom: 7px;
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="maxLength">
+      <number>12</number>
      </property>
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
@@ -283,7 +292,7 @@ padding-bottom: 7px;
       <string/>
      </property>
      <property name="maxLength">
-      <number>32769</number>
+      <number>15</number>
      </property>
      <property name="frame">
       <bool>true</bool>
@@ -396,6 +405,9 @@ padding-bottom: 7px;
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="maxLength">
+      <number>12</number>
      </property>
      <property name="echoMode">
       <enum>QLineEdit::Password</enum>
