@@ -22,7 +22,7 @@ def sum_msgs(obj):
 
 def bot_command_check(msg: str, sender: str):
     if msg == '/help':
-        bot_msg = '/time - узнать время\n'
+        bot_msg = '/time - узнать время'
         db.append({
             'sender': 'bot4help',  # отправитель
             'recipient': sender,  # получатель
@@ -45,14 +45,9 @@ app = Flask(__name__)
 
 db = [
     {
-        'sender': 'Пшеничный',
-        'message': 'По воле великого меня, да заработает сервер!',
+        'sender': 'admin',
+        'message': 'Я запустил мессенджер))0)',
         'time': 0.1
-    },
-    {
-        'sender': 'Данил',
-        'message': 'Иди стихи пиши, старый',
-        'time': 0.2
     }
 ]
 
