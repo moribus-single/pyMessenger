@@ -1,17 +1,21 @@
 from datetime import datetime
+import PyQt6
 from PyQt6 import QtWidgets, QtCore
 from gui import chatUI
 from gui import loginUI
 from gui import registrationUI
 import requests as r
-from cleaning import clean_msg
+from utils import clean_msg
 
 
-class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
-    def __init__(self, user_login):
+class MainWindow(PyQt6.QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
+    def __init__(self, user_login, host='http://127.0.0.1:5000'):
         super().__init__()
         self.setupUi(self)
+
         self.user_login = user_login
+        self.host = host
+
         self.label.setText(user_login)  # Логин слева сверху
         self.after = 0
         # to run on button click
@@ -19,22 +23,24 @@ class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
         self.pushButton_2.pressed.connect(self.close_window)
 
         # to run by timer
-        self.timer = QtCore.QTimer()
+        self.timer = PyQt6.QtCore.QTimer()
         self.timer.timeout.connect(self.get_msg)
         self.timer.start(1000)
 
     def show_msg(self, messages):
         for msg in messages:
             dt = datetime.fromtimestamp(msg['time'])
-            dt = dt.strftime('%d.%m %H:%M')
+            current_time = dt.strftime('%H:%M')
+            current_date = dt.strftime('%d.%m')
+            # TODO: Добавлять дату в середину поля сообщений, как в мессенджерах\соцсетях
 
-            self.textBrowser.append(msg['sender'] + ' ' + dt + ':')
+            self.textBrowser.append(msg['sender'] + ' ' + current_time + ':')
             self.textBrowser.append(msg['message'] + '\n')
 
     def get_msg(self):
         try:
             result = r.get(
-                'http://127.0.0.1:5000/messages',
+                self.host + '/messages',
                 params={'after': self.after}
             )
         except:
@@ -48,11 +54,10 @@ class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
     def send_msg(self):
         name = self.user_login
         text = clean_msg(self.textEdit.toPlainText())
-        print(f'Login - {self.user_login}\nMessage - {text}\n')
 
         try:
             result = r.post(
-                'http://127.0.0.1:5000/send',
+                self.host + '/send',
                 json={'sender': name, 'message': text}
             )
         except:
@@ -60,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
             return
 
         if result.status_code != 200:
-            print(f'Status code - {result.status_code}')
+            # print(f'Status code - {result.status_code}')
             self.textBrowser.append('Недостаточно данных!\n')
             return
 
@@ -70,15 +75,18 @@ class MainWindow(QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
         self.close()
 
 
-class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
-    def __init__(self):
+class LoginForm(PyQt6.QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
+    def __init__(self, host='http://127.0.0.1:5000'):
         super().__init__()
         self.setupUi(self)
+
+        self.host = host
+
         self.pushButton.pressed.connect(self.log_in)
         self.pushButton_2.pressed.connect(self.close_window)
         self.pushButton_3.pressed.connect(self.sign_up)
 
-        self.register_window = RegistrationForm(self)
+        self.register_window = RegistrationForm(self, self.host)
 
     def log_in(self):
         login = self.lineEdit_2.text()
@@ -86,7 +94,7 @@ class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
 
         try:
             result = r.post(
-                'http://127.0.0.1:5000/login',
+                self.host + '/login',
                 json={'login': login, 'password': password}
             )
         except:
@@ -104,7 +112,7 @@ class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
             self.label_2.clear()
             self.close()
 
-            self.main_window = MainWindow(login)
+            self.main_window = MainWindow(login, self.host)
             self.main_window.show()
             # TODO: привести в порядок отображение сообщений в main_window
             # TODO: добавить чаты в каждый аккаунт с возможностью сохранения.
@@ -119,11 +127,14 @@ class LoginForm(QtWidgets.QMainWindow, loginUI.Ui_MainWindow):
         self.close()
 
 
-class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
-    def __init__(self, login_form):
+class RegistrationForm(PyQt6.QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
+    def __init__(self, login_form, host='http://127.0.0.1:5000'):
         super().__init__()
         self.setupUi(self)
+
         self.login_form = login_form
+        self.host = host
+
         self.pushButton.pressed.connect(self.sign_up)
         self.pushButton_2.pressed.connect(self.close_window)
 
@@ -160,7 +171,7 @@ class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
         else:
             try:
                 result = r.post(
-                    'http://127.0.0.1:5000/registration',
+                    self.host + '/registration',
                     json={
                         'first_name': first_name,
                         'second_name': second_name,
@@ -172,6 +183,10 @@ class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
                 )
             except:
                 return
+
+        if result.status_code == 406:
+            self.label_2.setText(f'User with login {login} is already registered')
+            return
 
         self.clear_fields()
 
@@ -185,10 +200,10 @@ class RegistrationForm(QtWidgets.QMainWindow, registrationUI.Ui_MainWindow):
 
 
 if __name__ == '__main__':
-    app = QtWidgets.QApplication([])
+    HOST = 'http://09c184003d70.ngrok.io'
+
+    app = PyQt6.QtWidgets.QApplication([])
 
     login = LoginForm()
-    # register = RegistrationForm(login)
-
     login.show()
     app.exec()
