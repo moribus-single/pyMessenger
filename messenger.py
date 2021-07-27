@@ -5,7 +5,7 @@ from gui import chatUI
 from gui import loginUI
 from gui import registrationUI
 import requests as r
-from cleaning import clean_msg
+from utils import clean_msg
 
 
 class MainWindow(PyQt6.QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
@@ -54,7 +54,6 @@ class MainWindow(PyQt6.QtWidgets.QMainWindow, chatUI.Ui_MainWindow):
     def send_msg(self):
         name = self.user_login
         text = clean_msg(self.textEdit.toPlainText())
-        # print(f'Login - {self.user_login}\nMessage - {text}\n')
 
         try:
             result = r.post(
@@ -185,6 +184,10 @@ class RegistrationForm(PyQt6.QtWidgets.QMainWindow, registrationUI.Ui_MainWindow
             except:
                 return
 
+        if result.status_code == 406:
+            self.label_2.setText(f'User with login {login} is already registered')
+            return
+
         self.clear_fields()
 
         if result.status_code != 400:
@@ -201,6 +204,6 @@ if __name__ == '__main__':
 
     app = PyQt6.QtWidgets.QApplication([])
 
-    login = LoginForm(HOST)
+    login = LoginForm()
     login.show()
     app.exec()
