@@ -1,5 +1,6 @@
 from time import time
 from datetime import datetime
+from proj.account import Account
 
 
 def clean_msg(text: str) -> str:
@@ -50,3 +51,21 @@ def bot_command_check(msg: str, sender: str, db: list) -> None:
             'message': bot_msg,  # сообщение
             'time': time()  # время
         })
+
+
+def create_account(db: list,
+                   first_name: str,
+                   second_name: str,
+                   country: str,
+                   birthday: str,
+                   login: str,
+                   password: str) -> None:
+    """Создание аккаунта с помощью account.Account"""
+    user = Account(first_name=first_name,
+                   second_name=second_name,
+                   country=country,
+                   birthday=birthday,
+                   login=login,
+                   password=password)
+
+    db.append(user)
