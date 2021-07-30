@@ -6,12 +6,13 @@ from time import time
 from flask import Flask, request, abort
 
 # функции
-from utils import unique_users, bot_command_check
+from utils import unique_users, bot_command_check, create_account
 
 # Валидация данных
 import validation
 from pydantic import ValidationError
 
+# структура данных - аккаунт
 
 db = [
     {
@@ -21,12 +22,7 @@ db = [
     }
 ]
 
-acc_db = [
-    {
-        'login': 'danil01',
-        'password': '12321qwqw'
-    }
-]
+acc_db = []
 
 app = Flask(__name__)
 
@@ -34,11 +30,6 @@ app = Flask(__name__)
 @app.route("/")
 def hello():
     return "Hello, Messenger!"
-
-
-@app.route("/admin")
-def accounts():
-    return {'info': acc_db}
 
 
 @app.route("/stat")
@@ -87,7 +78,7 @@ def get_msg():
     for msg in db:
         if msg['time'] > after:
             messages.append(msg)
-    return {'messages': messages[:50]}
+    return {'messages': messages[:20]}
 
 
 @app.route("/login", methods=['POST'])
@@ -100,8 +91,8 @@ def login():
         return {'ok': False}
 
     for acc in acc_db:
-        if acc['login'] == data.login:
-            if acc['password'] == data.password:
+        if acc.login == data.login:
+            if acc.return_password() == data.password:
                 return {'ok': True}
 
     abort(400)
@@ -118,18 +109,18 @@ def sign_up():
         abort(400)
         return {'ok': False}
 
-    if data.login in [dictionary['login'] for dictionary in acc_db]:
+    if data.login in [account.login for account in acc_db]:
         abort(406)
 
     else:
-        acc_db.append({
-            'first_name': data.first_name,
-            'second_name': data.second_name,
-            'country': data.country,
-            'birthday': data.birthday,
-            'login': data.login,
-            'password': data.password
-        })
+        create_account(db=acc_db,
+                       first_name=data.first_name,
+                       second_name=data.second_name,
+                       country=data.country,
+                       birthday=data.birthday,
+                       login=data.login,
+                       password=data.password
+                       )
         return {'ok': True}
 
     abort(400)
